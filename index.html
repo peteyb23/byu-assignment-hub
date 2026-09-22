@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#3158d4" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="Assignment Hub" />
+  <title>Assignment Hub</title>
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png" />
+  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="header-copy">
+        <p class="eyebrow">ASSIGNMENT HUB</p>
+        <p class="summary" id="summaryText" hidden>Connecting to Canvas…</p>
+        <p class="sync-status" id="syncStatus"></p>
+      </div>
+      <div class="header-actions">
+        <div class="header-add-stack">
+          <button class="primary-button" id="addButton" type="button">+ Add</button>
+          <button class="later-toggle header-later-toggle" id="laterToggle" type="button">Show later</button>
+        </div>
+        <button class="sync-button" id="syncButton" type="button">↻ Sync</button>
+        <button class="icon-button" id="themeToggle" aria-label="Toggle theme">☾</button>
+      </div>
+    </header>
+
+    <aside class="wayne-floating-helper" aria-label="Wayne Johnston helper">
+      <div class="wayne-row">
+        <div class="wayne-mascot-wrap" aria-hidden="true">
+          <img id="wayneMascot" class="wayne-mascot" src="assets/wayne-idle-folded.png" alt="">
+          <img id="wayneDangleMascot" class="wayne-dangle-mascot" src="assets/wayne-dangle-feet.png" alt="" aria-hidden="true">
+          <img id="wayneDangleNextUp" class="wayne-dangle-mascot wayne-dangle-nextup" src="assets/wayne-dangle-feet-nextup.png" alt="" aria-hidden="true">
+        </div>
+        <div class="wayne-bubble">
+          <span class="wayne-name">WAYNE JOHNSTON</span>
+          <h1 id="greeting">Lock in, bro.</h1>
+        </div>
+      </div>
+    </aside>
+
+    <section class="stats-grid" aria-label="Assignment summary">
+      <article class="stat-card overdue-card"><span class="stat-label">Overdue</span><strong id="overdueCount">0</strong></article>
+      <article class="stat-card today-card"><span class="stat-label">Due today</span><strong id="todayCount">0</strong></article>
+      <article class="stat-card"><span class="stat-label">Next 7 days</span><strong id="weekCount">0</strong></article>
+      <article class="stat-card"><span class="stat-label">Remaining</span><strong id="remainingCount">0</strong></article>
+    </section>
+
+    <div class="controls-row desktop-controls">
+      <nav class="tabs" aria-label="Dashboard views">
+        <button class="tab active" data-view="list">Upcoming</button>
+        <button class="tab" data-view="calendar">Calendar</button>
+        <button class="tab" data-view="courses">Courses</button>
+        <button class="tab" data-view="readings">Readings</button>
+        <button class="tab" data-view="more">More</button>
+      </nav>
+    </div>
+
+    <section id="courseFilters" class="course-filters" aria-label="Filter by course"></section>
+
+    <section id="listView" class="view active-view">
+      <div class="dashboard-grid">
+        <aside class="today-focus-panel" aria-labelledby="todayFocusTitle">
+          <div class="focus-card-head">
+            <div>
+              <p class="eyebrow">TODAY'S FOCUS</p>
+              <h2 id="todayFocusTitle">Make today count.</h2>
+            </div>
+          </div>
+
+          <div class="focus-progress-top">
+            <strong id="focusProgressLabel">0 / 0 tasks</strong>
+            <span id="focusProgressPercent">0%</span>
+          </div>
+          <div class="focus-progress-track" aria-hidden="true">
+            <div id="focusProgressBar" class="focus-progress-bar"></div>
+          </div>
+
+          <div class="focus-stats">
+            <div><strong id="focusMinutes">0</strong><span>min focused</span></div>
+            <div><strong id="focusSessions">0</strong><span>focus sessions</span></div>
+          </div>
+
+          <div class="focus-campfire-section">
+            <div id="focusCampfire" class="focus-campfire" data-level="0" aria-label="Campfire level 0 of 5">
+              <div class="svg-fire-glow"></div>
+              <svg class="svg-fire" viewBox="0 0 140 140" aria-hidden="true">
+                <g class="ember-layer">
+                  <circle class="ember e1" cx="48" cy="40" r="2.2"></circle>
+                  <circle class="ember e2" cx="88" cy="31" r="1.8"></circle>
+                  <circle class="ember e3" cx="99" cy="49" r="2"></circle>
+                  <circle class="ember e4" cx="59" cy="25" r="1.6"></circle>
+                  <circle class="ember e5" cx="76" cy="18" r="1.5"></circle>
+                </g>
+
+                <!-- Back logs only. Flames are painted after these and never crossed by a foreground log. -->
+                <g class="log-layer">
+                  <ellipse class="ash-bed" cx="70" cy="121" rx="42" ry="7"></ellipse>
+                  <g class="log-svg log-left" transform="rotate(23 70 114)">
+                    <rect x="39" y="108" width="62" height="12" rx="6"></rect>
+                    <circle cx="44" cy="114" r="5"></circle>
+                    <circle cx="96" cy="114" r="5"></circle>
+                  </g>
+                  <g class="log-svg log-right" transform="rotate(-23 70 114)">
+                    <rect x="39" y="108" width="62" height="12" rx="6"></rect>
+                    <circle cx="44" cy="114" r="5"></circle>
+                    <circle cx="96" cy="114" r="5"></circle>
+                  </g>
+                </g>
+
+                <g class="flame-layer">
+                  <path class="flame-shape flame-outer" d="M70 116
+                    C48 116 34 102 37 81
+                    C39 67 49 59 53 47
+                    C57 36 56 28 54 20
+                    C68 29 72 42 71 52
+                    C80 44 88 35 89 24
+                    C103 39 108 54 102 68
+                    C111 70 117 79 116 90
+                    C115 106 96 116 70 116 Z"/>
+                  <path class="flame-shape flame-mid-svg" d="M71 113
+                    C55 113 46 102 48 88
+                    C49 78 57 72 60 65
+                    C63 58 62 52 60 47
+                    C69 52 73 60 72 68
+                    C78 63 84 57 86 49
+                    C95 59 98 70 94 80
+                    C100 83 103 88 102 95
+                    C100 106 88 113 71 113 Z"/>
+                  <path class="flame-shape flame-inner" d="M71 110
+                    C61 110 55 102 56 93
+                    C57 86 62 82 64 77
+                    C66 73 66 69 64 66
+                    C70 69 73 74 72 79
+                    C76 76 80 72 81 67
+                    C87 74 89 81 86 87
+                    C90 89 92 93 91 98
+                    C90 106 82 110 71 110 Z"/>
+                </g>
+              </svg>
+            </div>
+            <div class="focus-reward" id="focusReward">
+              <strong>Ready to light</strong>
+              <span>Finish a 25 min focus to start the fire.</span>
+            </div>
+          </div>
+        </aside>
+        <div id="assignmentSections"></div>
+        <aside class="next-up-panel" aria-labelledby="nextUpTitle">
+          <div class="next-up-header">
+            <div class="next-up-heading">
+              <p class="eyebrow">STUDY SESSION</p>
+              <h2 id="nextUpTitle">Next Up</h2>
+              <p class="next-up-subtitle" id="nextUpSummary">Build your own short homework queue.</p>
+            </div>
+            <span class="section-count" id="nextUpCount">0</span>
+          </div>
+          <div id="nextUpList" class="next-up-list"></div>
+          <div class="study-music">
+            <div class="study-music-desktop">
+              <p class="study-music-label">STUDY MUSIC</p>
+              <iframe class="spotify-embed"
+              title="Spotify study playlist"
+              src="https://open.spotify.com/embed/playlist/4PAkCcX6bPyGOO8hbZVz6c?utm_source=generator&si=f7f64602133641d6"
+              width="100%" height="152" frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"></iframe>
+            </div>
+            <details class="study-music-mobile">
+              <summary>Study Music</summary>
+              <div class="study-music-mobile-player">
+                <iframe class="spotify-embed"
+              title="Spotify study playlist"
+              src="https://open.spotify.com/embed/playlist/4PAkCcX6bPyGOO8hbZVz6c?utm_source=generator&si=f7f64602133641d6"
+              width="100%" height="152" frameborder="0"
+              allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+              loading="lazy"></iframe>
+              </div>
+            </details>
+          </div>
+        </aside>
+        <aside class="timer-rail" aria-label="Study timer">
+<section class="quick-links-card"><p class="eyebrow">QUICK LINKS</p><h2>Class resources</h2><div class="quick-links-list"><a href="https://learningsuite.byu.edu/" target="_blank" rel="noopener"><b>LEARNING SUITE</b><span>Website ↗</span></a><a href="https://byu.instructure.com/" target="_blank" rel="noopener"><b>CANVAS</b><span>Website ↗</span></a></div></section>
+          <div class="study-timer">
+            <p class="eyebrow timer-eyebrow">TIMER</p>
+            <select id="studyTimerPreset" class="study-timer-preset" aria-label="Timer length">
+              <option value="25">25 min focus</option>
+              <option value="5">5 min break</option>
+              <option value="10">10 min break</option>
+              <option value="custom">Custom</option>
+            </select>
+            <div class="study-timer-display" id="studyTimerDisplay" aria-live="polite">25:00</div>
+            <div class="study-timer-custom" id="studyTimerCustom" hidden>
+              <input id="studyTimerCustomMinutes" type="number" inputmode="numeric" min="1" max="240" value="30" aria-label="Custom timer minutes">
+              <span>min</span>
+            </div>
+            <div class="study-timer-actions">
+              <button id="studyTimerStart" type="button">Start</button>
+              <button id="studyTimerReset" type="button" aria-label="Reset timer" title="Reset">↺</button>
+            </div>
+          </div>
+          <div class="scratch-pad">
+            <div class="scratch-pad-head">
+              <p class="eyebrow">SCRATCH PAD</p>
+              <button id="scratchPadClear" type="button" title="Clear scratch pad" aria-label="Clear scratch pad">Clear</button>
+            </div>
+            <textarea id="scratchPadText" rows="7" placeholder="Quick notes for this study session…" aria-label="Scratch pad"></textarea>
+          </div>
+        </aside>
+      </div>
+    </section>
+    <section id="calendarView" class="view">
+      <section class="calendar-panel">
+        <div class="calendar-toolbar"><button class="calendar-arrow" id="calendarPrev" type="button">‹</button><div class="calendar-heading"><h2 id="calendarMonthLabel">Month</h2><button class="calendar-today" id="calendarToday" type="button">Today</button></div><button class="calendar-arrow" id="calendarNext" type="button">›</button></div>
+        <div class="calendar-weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+        <div id="calendarGrid" class="calendar-grid"></div>
+        <label class="calendar-reading-toggle"><input id="calendarReadingsToggle" type="checkbox" checked> Show ECON readings</label>
+      </section>
+      <section id="calendarDaySection" class="calendar-day-section"></section>
+    </section>
+    <section id="coursesView" class="view"><div id="courseGrid" class="course-grid"></div></section>
+    <section id="readingsView" class="view"><div id="readingSection"></div></section>
+    <section id="moreView" class="view">
+      <div class="more-grid">
+        <section class="panel">
+          <div class="section-header"><div><h2 class="section-title">HIDDEN ITEMS</h2><p class="section-subtitle">Restore anything you hid from the dashboard.</p></div><span class="section-count" id="hiddenCount">0</span></div>
+          <div id="hiddenList" class="compact-list"></div>
+        </section>
+        <section class="panel">
+          <div class="section-header"><div><h2 class="section-title">RECENTLY COMPLETED</h2><p class="section-subtitle">Completed work from the last 14 days.</p></div><span class="section-count" id="completedCount">0</span></div>
+          <div id="completedList" class="compact-list"></div>
+        </section>
+        <section class="panel">
+          <h2 class="section-title">ABOUT THIS DEVICE</h2>
+          <p class="panel-copy">Manual assignments, hidden items, and local Learning Suite check-offs are saved on this device.</p>
+          <button class="secondary-button" id="clearLocalButton" type="button">Clear local-only data</button>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Mobile navigation">
+    <button class="bottom-nav-item active" data-view="list"><span>⌂</span><small>Dashboard</small></button>
+    <button class="bottom-nav-item" data-view="calendar"><span>□</span><small>Calendar</small></button>
+    <button class="bottom-nav-item" data-view="courses"><span>▦</span><small>Courses</small></button>
+    <button class="bottom-nav-item" data-view="readings"><span>▤</span><small>Readings</small></button>
+    <button class="bottom-nav-item" data-view="more"><span>•••</span><small>More</small></button>
+  </nav>
+
+  <template id="assignmentTemplate">
+    <article class="assignment-card">
+      <button class="check-button" aria-label="Mark complete"></button>
+      <div class="assignment-main">
+        <div class="assignment-topline"><span class="course-pill"></span><span class="due-time"></span></div>
+        <a class="assignment-title" target="_blank" rel="noopener noreferrer"></a>
+        <div class="assignment-meta"></div>
+      </div>
+      <div class="card-side-actions">
+        <button class="card-menu-button" type="button" aria-label="Assignment actions">•••</button>
+        <button class="next-up-quick-button" type="button" aria-label="Add to Next Up" title="Add to Next Up">+</button>
+      </div>
+      <div class="card-menu" hidden>
+        <button type="button" data-action="edit" hidden>Edit</button>
+        <button type="button" data-action="delete" hidden>Delete</button>
+        <button type="button" data-action="hide">Hide</button>
+      </div>
+    </article>
+  </template>
+
+
+  <dialog id="loginDialog" class="modal login-modal">
+    <form id="loginForm" class="modal-card">
+      <div class="modal-header"><div><p class="eyebrow">ASSIGNMENT HUB</p><h2>Unlock your dashboard</h2></div></div>
+      <p class="panel-copy">Enter the private password you set for the hosted version.</p>
+      <label>Password<input id="hubPassword" type="password" autocomplete="current-password" required /></label>
+      <p class="login-error" id="loginError"></p>
+      <div class="modal-actions"><button class="primary-button" type="submit">Unlock</button></div>
+    </form>
+  </dialog>
+
+  <dialog id="addDialog" class="modal">
+    <form method="dialog" id="addForm" class="modal-card">
+      <div class="modal-header"><div><p class="eyebrow">MANUAL ASSIGNMENT</p><h2>Add something</h2></div><button class="modal-close" id="closeAddDialog" type="button" aria-label="Close">×</button></div>
+      <label>Class<select id="manualCourse" required></select></label>
+      <label>Assignment<input id="manualTitle" type="text" placeholder="What do you need to do?" required /></label>
+      <div class="form-row"><label>Due date<input id="manualDate" type="date" required /></label><label>Time <span class="optional">optional</span><input id="manualTime" type="time" /></label></div>
+      <label>Notes <span class="optional">optional</span><textarea id="manualNotes" rows="3" placeholder="Anything useful to remember"></textarea></label>
+      <div class="modal-actions"><button class="secondary-button" id="cancelAddDialog" type="button">Cancel</button><button class="primary-button" id="saveManualButton" type="submit" value="default">Add assignment</button></div>
+    </form>
+  </dialog>
+
+
+  <dialog id="detailDialog" class="modal">
+    <div class="modal-card detail-card">
+      <div class="modal-header"><div><p class="eyebrow" id="detailCourse">ASSIGNMENT</p><h2 id="detailTitle"></h2></div><button class="modal-close" id="closeDetailDialog" type="button" aria-label="Close">×</button></div>
+      <p class="detail-due" id="detailDue"></p><div class="detail-description" id="detailDescription"></div>
+      <div class="modal-actions"><a class="secondary-button detail-open-link" id="detailOpenLink" target="_blank" rel="noopener noreferrer">Open original</a><button class="primary-button" id="detailDone" type="button">Done</button></div>
+    </div>
+  </dialog>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden><span id="toastText"></span><button id="toastUndo" type="button">Undo</button></div>
+
+  <script src="app.js"></script>
+
+  <script>
+    (() => {
+      const greeting = document.getElementById('greeting');
+      const mascot = document.getElementById('wayneMascot');
+      if (!greeting || !mascot) return;
+
+      const bobble = () => {
+        mascot.classList.remove('wayne-bobble');
+        void mascot.offsetWidth;
+        mascot.classList.add('wayne-bobble');
+      };
+
+      new MutationObserver(bobble).observe(greeting, {
+        childList: true,
+        characterData: true,
+        subtree: true
+      });
+
+      mascot.addEventListener('animationend', () => {
+        mascot.classList.remove('wayne-bobble');
+      });
+    })();
+  </script>
+
+
+
+<script>
+(() => {
+  const normalWayne = document.getElementById('wayneMascot');
+  const sitToday = document.getElementById('wayneDangleMascot');
+  const sitNextUp = document.getElementById('wayneDangleNextUp');
+  const helper = document.querySelector('.wayne-floating-helper');
+  const bubble = helper?.querySelector('.wayne-bubble');
+  const todayFocus = document.querySelector('.today-focus-panel');
+  const nextUp = document.querySelector('.next-up-panel');
+
+  if (!normalWayne || !sitToday || !sitNextUp || !helper || !bubble || !todayFocus || !nextUp) return;
+
+  const standingPoses = {
+    idle: 'assets/wayne-idle-folded.png',
+    wave: 'assets/wayne-wave.png'
+  };
+
+  Object.values(standingPoses).forEach(src => {
+    const img = new Image();
+    img.src = src;
+  });
+
+  // 0 = idle standing
+  // 1 = sit on Today's Focus
+  // 2 = wave standing
+  // 3 = sit on Next Up
+  let state = 3; // START on the new Next Up sitting position for testing.
+  let timer = null;
+
+  function resetHelperPosition() {
+    helper.classList.remove('wayne-sitting-mode', 'wayne-sit-today', 'wayne-sit-nextup');
+    helper.style.left = '';
+    helper.style.top = '';
+    normalWayne.style.display = '';
+    sitToday.style.display = 'none';
+    sitNextUp.style.display = 'none';
+  }
+
+  function positionSittingOn(card, sitter, modeClass) {
+    helper.classList.add('wayne-sitting-mode', modeClass);
+    normalWayne.style.display = 'none';
+    sitToday.style.display = 'none';
+    sitNextUp.style.display = 'none';
+    sitter.style.display = 'block';
+
+    requestAnimationFrame(() => {
+      const cardRect = card.getBoundingClientRect();
+      const sitterRect = sitter.getBoundingClientRect();
+      const bubbleRect = bubble.getBoundingClientRect();
+
+      // Seat Wayne directly on the top-right corner of the target card.
+      const feetOverlap = 16;
+      const top = cardRect.top + window.scrollY - sitterRect.height + feetOverlap;
+      const rightInset = 10;
+      const sitterLeft = cardRect.right + window.scrollX - sitterRect.width - rightInset;
+
+      // Bubble stays to Wayne's left so it doesn't cover the card.
+      const gap = 10;
+      const helperLeft = sitterLeft - bubbleRect.width - gap;
+
+      helper.style.left = `${helperLeft}px`;
+      helper.style.top = `${top}px`;
+    });
+  }
+
+  function applyState() {
+    resetHelperPosition();
+
+    if (window.innerWidth <= 1100) {
+      normalWayne.src = state === 2 ? standingPoses.wave : standingPoses.idle;
+      return;
+    }
+
+    if (state === 0) {
+      normalWayne.src = standingPoses.idle;
+    } else if (state === 1) {
+      positionSittingOn(todayFocus, sitToday, 'wayne-sit-today');
+    } else if (state === 2) {
+      normalWayne.src = standingPoses.wave;
+    } else if (state === 3) {
+      positionSittingOn(nextUp, sitNextUp, 'wayne-sit-nextup');
+    }
+  }
+
+  function advanceState() {
+    state = (state + 1) % 4;
+    applyState();
+  }
+
+  function scheduleRotation() {
+    clearTimeout(timer);
+    const delay = 150000 + Math.random() * 90000; // 2.5–4 minutes
+    timer = setTimeout(() => {
+      advanceState();
+      scheduleRotation();
+    }, delay);
+  }
+
+  window.addEventListener('resize', applyState);
+
+  applyState();
+  scheduleRotation();
+
+  window.WayneRotation = {
+    next() { advanceState(); },
+    idle() { state = 0; applyState(); },
+    today() { state = 1; applyState(); },
+    wave() { state = 2; applyState(); },
+    nextUp() { state = 3; applyState(); }
+  };
+})();
+</script>
+
+</body>
+</html>
