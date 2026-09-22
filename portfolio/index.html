@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>BYU Assignment Hub — Peter Barton</title>
+<meta name="description" content="An AI-assisted academic planning dashboard that brings BYU Canvas and Learning Suite coursework into one place.">
+<meta property="og:title" content="BYU Assignment Hub">
+<meta property="og:description" content="An AI-assisted academic planning dashboard for BYU coursework, designed and refined through real-world daily use.">
+<meta property="og:image" content="https://raw.githubusercontent.com/peteyb23/byu-assignment-hub/main/docs/dashboard.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+:root{--blue:#3158d4;--ink:#171b25;--muted:#687083;--bg:#f5f7fc;--card:#fff;--line:#e5e9f2}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg);line-height:1.55}
+.wrap{max-width:1100px;margin:auto;padding:72px 24px}.eyebrow{font-weight:800;letter-spacing:.12em;color:var(--blue);font-size:.8rem;text-transform:uppercase}
+h1{font-size:clamp(2.5rem,7vw,5rem);line-height:.98;margin:.15em 0 .28em;letter-spacing:-.045em}h2{font-size:2rem;letter-spacing:-.03em;margin:0 0 18px}
+.lead{max-width:760px;font-size:1.25rem;color:var(--muted);margin-bottom:28px}
+.actions{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:46px}.btn{display:inline-block;padding:13px 19px;border-radius:12px;text-decoration:none;font-weight:750;border:1px solid var(--line);color:var(--ink);background:#fff}.primary{background:var(--blue);color:#fff;border-color:var(--blue)}
+.hero{width:100%;border-radius:22px;border:1px solid var(--line);box-shadow:0 24px 70px rgba(30,42,80,.12);display:block}
+.section{padding-top:78px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:22px}.card h3{margin:0 0 8px}.card p{margin:0;color:var(--muted)}
+.shots{display:grid;grid-template-columns:1.6fr .7fr;gap:20px;align-items:start}.shots img{width:100%;display:block;border-radius:18px;border:1px solid var(--line);background:#fff}
+.note{max-width:800px;color:var(--muted)}footer{padding:65px 0 10px;color:var(--muted);font-size:.92rem}
+@media(max-width:760px){.wrap{padding:48px 18px}.grid,.shots{grid-template-columns:1fr}.shots img:last-child{max-width:390px;margin:auto}.section{padding-top:55px}}
+</style>
+</head>
+<body><main class="wrap">
+<div class="eyebrow">Peter Barton · Project</div>
+<h1>BYU Assignment Hub</h1>
+<p class="lead">A mobile-friendly academic planning dashboard that brings coursework from BYU Canvas and Learning Suite into one place—assignments, readings, deadlines, planning, and focus tools.</p>
+<div class="actions"><a class="btn primary" href="https://github.com/peteyb23/byu-assignment-hub">View source on GitHub</a><a class="btn" href="#screens">See the interface</a></div>
+<img class="hero" src="docs/dashboard.png" alt="Assignment Hub desktop dashboard">
+<section class="section"><div class="eyebrow">What it does</div><h2>One place to plan the week.</h2>
+<div class="grid">
+<div class="card"><h3>Unified coursework</h3><p>Combines active Canvas assignments with Learning Suite coursework and scheduled readings.</p></div>
+<div class="card"><h3>Planning tools</h3><p>Supports course filtering, calendar views, completion tracking, a Next Up queue, and focus-session planning.</p></div>
+<div class="card"><h3>Built for daily use</h3><p>Responsive mobile navigation and PWA support make the dashboard usable across desktop and phone.</p></div>
+</div></section>
+<section class="section" id="screens"><div class="eyebrow">Interface</div><h2>Desktop to mobile.</h2><div class="shots"><img src="docs/calendar.png" alt="Assignment Hub calendar view"><img src="docs/mobile.PNG" alt="Assignment Hub mobile dashboard"></div></section>
+<section class="section"><div class="eyebrow">Development approach</div><h2>AI-assisted, product-directed.</h2><p class="note">I developed Assignment Hub to solve a problem in my own academic workflow. I direct the product requirements, interface behavior, testing, debugging, and iteration while using AI coding tools to assist with implementation. The project continues to evolve through real-world daily use.</p></section>
+<footer>BYU Assignment Hub · Peter Barton</footer>
+</main></body></html>
