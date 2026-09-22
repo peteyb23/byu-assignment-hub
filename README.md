@@ -22,7 +22,7 @@ This project was developed with AI assistance. My role has centered on defining 
 ### Mobile dashboard
 
 <p align="center">
-  <img src="docs/mobile.png" alt="Assignment Hub mobile dashboard" width="360">
+  <img src="docs/mobile.PNG" alt="Assignment Hub mobile dashboard" width="360">
 </p>
 
 ## What it does
