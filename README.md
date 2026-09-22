@@ -8,6 +8,23 @@ My assignments were split across multiple university systems, which made it hard
 
 This project was developed with AI assistance. My role has centered on defining the product, designing workflows and interface behavior, testing features, identifying bugs, and iteratively refining the application through real-world daily use.
 
+
+## Screenshots
+
+### Desktop dashboard
+
+![Assignment Hub desktop dashboard](docs/dashboard.png)
+
+### Calendar
+
+![Assignment Hub calendar view](docs/calendar.png)
+
+### Mobile dashboard
+
+<p align="center">
+  <img src="docs/mobile.png" alt="Assignment Hub mobile dashboard" width="360">
+</p>
+
 ## What it does
 
 - Combines active Canvas assignments with Learning Suite coursework
